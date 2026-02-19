@@ -272,7 +272,6 @@ fun RamadanApp() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 10.dp)
         ) {
             when (activeTab) {
                 AppTab.PRAYER_TIMES -> selectedCity?.let {
@@ -280,12 +279,18 @@ fun RamadanApp() {
                         appData = data,
                         selectedCity = it,
                         currentTime = currentTime,
-                        weatherText = weatherText
+                        weatherText = weatherText,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
                     )
                 }
 
                 AppTab.CITY_CHANGE -> CitySelectorScreen(
                     cities = data.cities,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
                     onCitySelected = { city ->
                         weatherForceRefresh = true
                         selectedCity = city.name
@@ -296,6 +301,9 @@ fun RamadanApp() {
 
                 AppTab.SETTINGS -> selectedCity?.let { city ->
                     SettingsScreen(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp, vertical = 10.dp),
                         prefs = notificationPrefs,
                         onPrefsChange = { notificationPrefs = it },
                         onGoToAbout = { activeTab = AppTab.ABOUT },
@@ -312,7 +320,12 @@ fun RamadanApp() {
                     )
                 }
 
-                AppTab.ABOUT -> AboutScreen(onBack = { activeTab = AppTab.SETTINGS })
+                AppTab.ABOUT -> AboutScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                    onBack = { activeTab = AppTab.SETTINGS }
+                )
             }
         }
     }
