@@ -3,6 +3,7 @@ package com.ramazan.imsakiyesi.notifications
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -14,6 +15,8 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.composables.icons.lucide.R as LucideR
+import com.ramazan.imsakiyesi.MainActivity
 import com.ramazan.imsakiyesi.R
 
 class RamadanNotificationReceiver : BroadcastReceiver() {
@@ -31,6 +34,15 @@ class RamadanNotificationReceiver : BroadcastReceiver() {
         val city = intent.getStringExtra("city").orEmpty()
         val iconType = intent.getStringExtra("icon_type").orEmpty()
         val notificationId = intent.getIntExtra("notification_id", title.hashCode())
+        val openAppIntent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        val contentIntent = PendingIntent.getActivity(
+            context,
+            notificationId,
+            openAppIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val customView = RemoteViews(context.packageName, R.layout.notification_ramadan).apply {
             val nightMode = (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
@@ -44,14 +56,14 @@ class RamadanNotificationReceiver : BroadcastReceiver() {
             setTextViewText(R.id.txt_time, "• şimdi")
             setTextViewText(R.id.txt_title, title)
             setTextViewText(R.id.txt_subtitle, if (city.isNotBlank()) "$city • $subtitle" else subtitle)
-            setTextViewText(R.id.txt_right_icon, iconGlyph(iconType))
             setImageViewResource(R.id.img_app_icon, R.mipmap.ramadan_icon_round)
+            setImageViewResource(R.id.img_right_icon, iconRes(iconType))
 
             setTextColor(R.id.txt_category, metaColor)
             setTextColor(R.id.txt_time, timeColor)
             setTextColor(R.id.txt_title, titleColor)
             setTextColor(R.id.txt_subtitle, subtitleColor)
-            setTextColor(R.id.txt_right_icon, iconColor)
+            setInt(R.id.img_right_icon, "setColorFilter", iconColor)
         }
 
         runCatching {
@@ -61,6 +73,7 @@ class RamadanNotificationReceiver : BroadcastReceiver() {
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setContentTitle(title)
                 .setContentText(subtitle)
+                .setContentIntent(contentIntent)
                 .setColor(0xFF6366F1.toInt())
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
@@ -87,14 +100,14 @@ class RamadanNotificationReceiver : BroadcastReceiver() {
         const val CHANNEL_ID = "ramadan_notifications"
     }
 
-    private fun iconGlyph(iconType: String): String {
+    private fun iconRes(iconType: String): Int {
         return when (iconType) {
-            "imsak" -> "\uD83C\uDF19"
-            "sun" -> "\u2600\uFE0F"
-            "cloud" -> "\u2601\uFE0F"
-            "sunset" -> "\uD83C\uDF07"
-            "night" -> "\uD83C\uDF19"
-            else -> "\uD83D\uDD14"
+            "imsak" -> LucideR.drawable.lucide_ic_sunrise
+            "sun" -> LucideR.drawable.lucide_ic_sun
+            "cloud" -> LucideR.drawable.lucide_ic_cloud_sun
+            "sunset" -> LucideR.drawable.lucide_ic_sunset
+            "night" -> LucideR.drawable.lucide_ic_moon
+            else -> LucideR.drawable.lucide_ic_bell
         }
     }
 }
