@@ -98,6 +98,7 @@ import com.ramazan.imsakiyesi.data.PrayerTimesEntry
 import com.ramazan.imsakiyesi.data.WeatherRepository
 import com.ramazan.imsakiyesi.notifications.NotificationToggles
 import com.ramazan.imsakiyesi.notifications.RamadanNotificationScheduler
+import com.ramazan.imsakiyesi.widget.RamadanWidgetProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -239,6 +240,8 @@ fun RamadanApp() {
         } else {
             RamadanNotificationScheduler.cancelAll(context)
         }
+
+        RamadanWidgetProvider.updateAll(context)
     }
 
     val currentTime by produceState(initialValue = LocalTime.now()) {
