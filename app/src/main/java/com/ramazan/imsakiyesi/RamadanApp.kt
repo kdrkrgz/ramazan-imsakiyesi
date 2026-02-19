@@ -77,9 +77,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -110,7 +108,6 @@ import java.io.FileOutputStream
 import android.os.Build
 import java.util.Locale
 import kotlin.math.absoluteValue
-import kotlin.math.min
 
 private enum class AppTab {
     CITY_CHANGE, PRAYER_TIMES, SETTINGS, ABOUT
@@ -350,26 +347,23 @@ private fun DashboardScreen(
     val todayLabel = remember(today) {
         today.format(DateTimeFormatter.ofPattern("dd.MM.yyyy / EEEE", Locale("tr", "TR")))
     }
-    val density = LocalDensity.current
 
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
-        var contentHeightPx by remember { mutableIntStateOf(0) }
-        val containerHeightPx = with(density) { maxHeight.toPx() }
-        val bottomSpacerPx = 0f
-        val availableForContentPx = (containerHeightPx - bottomSpacerPx).coerceAtLeast(0f)
-        val topScale = if (contentHeightPx > 0) min(1f, availableForContentPx / contentHeightPx) else 1f
-        val contentAlpha = if (contentHeightPx > 0) 1f else 0f
+        val topScale = when {
+            maxHeight < 700.dp -> 0.88f
+            maxHeight < 760.dp -> 0.92f
+            maxHeight < 840.dp -> 0.96f
+            else -> 1f
+        }
 
         Box(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.TopCenter)
-                    .onSizeChanged { contentHeightPx = it.height }
                     .graphicsLayer {
                         scaleX = topScale
                         scaleY = topScale
-                        alpha = contentAlpha
                         transformOrigin = TransformOrigin(0.5f, 0f)
                     }
             ) {
