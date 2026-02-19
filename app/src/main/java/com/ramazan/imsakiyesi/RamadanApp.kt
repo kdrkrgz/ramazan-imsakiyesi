@@ -36,6 +36,11 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowForwardIos
 import androidx.compose.material.icons.outlined.DarkMode
@@ -483,38 +488,60 @@ private fun PrayerCard(
     modifier: Modifier = Modifier
 ) {
     val iconTint = if (isActive) Color(0xFF4F46E5) else Color(0xFF60A5FA)
+    val pulseTransition = rememberInfiniteTransition(label = "active_prayer_pulse")
+    val pulseAlpha by pulseTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 0.3f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1400),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "active_prayer_pulse_alpha"
+    )
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isActive) Color(0xFFEEF2FF) else Color.White
+            containerColor = Color.White
         ),
         border = BorderStroke(1.dp, if (isActive) Color(0xFF818CF8) else Color.Transparent)
     ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 14.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            when (prayer.iconType) {
-                PrayerIconType.IMSAK -> ImsakIcon(prayer.name, iconTint)
-                PrayerIconType.GUNES -> GunesIcon(prayer.name, iconTint)
-                PrayerIconType.OGLE -> OgleIcon(prayer.name, iconTint)
-                PrayerIconType.IKINDI -> IkindiIcon(prayer.name, iconTint)
-                PrayerIconType.AKSAM -> AksamIcon(prayer.name, iconTint)
-                PrayerIconType.YATSI -> YatsiIcon(prayer.name, iconTint)
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 14.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                when (prayer.iconType) {
+                    PrayerIconType.IMSAK -> ImsakIcon(prayer.name, iconTint)
+                    PrayerIconType.GUNES -> GunesIcon(prayer.name, iconTint)
+                    PrayerIconType.OGLE -> OgleIcon(prayer.name, iconTint)
+                    PrayerIconType.IKINDI -> IkindiIcon(prayer.name, iconTint)
+                    PrayerIconType.AKSAM -> AksamIcon(prayer.name, iconTint)
+                    PrayerIconType.YATSI -> YatsiIcon(prayer.name, iconTint)
+                }
+                Text(
+                    text = prayer.time,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = if (isActive) Color(0xFF4338CA) else Color(0xFF111827)
+                )
+                Text(
+                    text = prayer.name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 11.sp,
+                    color = Color(0xFF9CA3AF)
+                )
             }
-            Text(
-                text = prayer.time,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                color = if (isActive) Color(0xFF4338CA) else Color(0xFF111827)
-            )
-            Text(
-                text = prayer.name,
-                fontWeight = FontWeight.Bold,
-                fontSize = 11.sp,
-                color = Color(0xFF9CA3AF)
-            )
+            if (isActive) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = 18.dp, end = 20.dp)
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFF4F46E5).copy(alpha = pulseAlpha))
+                )
+            }
         }
     }
 }
@@ -961,7 +988,8 @@ private fun AboutScreen(
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 22.sp,
+                color = Color(0xFF111827)
             )
             Spacer(modifier = Modifier.width(36.dp))
         }
