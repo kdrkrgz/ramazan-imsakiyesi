@@ -38,16 +38,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowForwardIos
-import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.Nightlight
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.WbSunny
-import androidx.compose.material.icons.outlined.WbTwilight
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Settings
@@ -86,6 +83,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.core.content.ContextCompat
+import com.composables.icons.lucide.R as LucideR
 import com.ramazan.imsakiyesi.data.AppData
 import com.ramazan.imsakiyesi.data.AppPreferences
 import com.ramazan.imsakiyesi.data.AssetRepository
@@ -107,6 +105,7 @@ import java.time.temporal.ChronoUnit
 import java.io.File
 import java.io.FileOutputStream
 import android.os.Build
+import java.text.Collator
 import java.util.Locale
 import kotlin.math.absoluteValue
 
@@ -120,10 +119,14 @@ private data class NotificationPrefs(
     val iftar: Boolean = true
 )
 
+private enum class PrayerIconType {
+    IMSAK, GUNES, OGLE, IKINDI, AKSAM, YATSI
+}
+
 private data class PrayerUi(
     val name: String,
     val time: String,
-    val icon: ImageVector
+    val iconType: PrayerIconType
 )
 
 private data class CountdownUi(
@@ -479,6 +482,7 @@ private fun PrayerCard(
     isActive: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val iconTint = if (isActive) Color(0xFF4F46E5) else Color(0xFF60A5FA)
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
@@ -491,12 +495,14 @@ private fun PrayerCard(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 14.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Icon(
-                imageVector = prayer.icon,
-                contentDescription = prayer.name,
-                tint = if (isActive) Color(0xFF4F46E5) else Color(0xFF60A5FA),
-                modifier = Modifier.size(22.dp)
-            )
+            when (prayer.iconType) {
+                PrayerIconType.IMSAK -> ImsakIcon(prayer.name, iconTint)
+                PrayerIconType.GUNES -> GunesIcon(prayer.name, iconTint)
+                PrayerIconType.OGLE -> OgleIcon(prayer.name, iconTint)
+                PrayerIconType.IKINDI -> IkindiIcon(prayer.name, iconTint)
+                PrayerIconType.AKSAM -> AksamIcon(prayer.name, iconTint)
+                PrayerIconType.YATSI -> YatsiIcon(prayer.name, iconTint)
+            }
             Text(
                 text = prayer.time,
                 fontWeight = FontWeight.Bold,
@@ -511,6 +517,66 @@ private fun PrayerCard(
             )
         }
     }
+}
+
+@Composable
+private fun ImsakIcon(contentDescription: String, tint: Color) {
+    Icon(
+        painter = painterResource(id = LucideR.drawable.lucide_ic_sunrise),
+        contentDescription = contentDescription,
+        tint = tint,
+        modifier = Modifier.size(22.dp)
+    )
+}
+
+@Composable
+private fun GunesIcon(contentDescription: String, tint: Color) {
+    Icon(
+        painter = painterResource(id = LucideR.drawable.lucide_ic_sun),
+        contentDescription = contentDescription,
+        tint = tint,
+        modifier = Modifier.size(22.dp)
+    )
+}
+
+@Composable
+private fun OgleIcon(contentDescription: String, tint: Color) {
+    Icon(
+        painter = painterResource(id = LucideR.drawable.lucide_ic_sun_medium),
+        contentDescription = contentDescription,
+        tint = tint,
+        modifier = Modifier.size(22.dp)
+    )
+}
+
+@Composable
+private fun IkindiIcon(contentDescription: String, tint: Color) {
+    Icon(
+        painter = painterResource(id = LucideR.drawable.lucide_ic_cloud_sun),
+        contentDescription = contentDescription,
+        tint = tint,
+        modifier = Modifier.size(22.dp)
+    )
+}
+
+@Composable
+private fun AksamIcon(contentDescription: String, tint: Color) {
+    Icon(
+        painter = painterResource(id = LucideR.drawable.lucide_ic_sunset),
+        contentDescription = contentDescription,
+        tint = tint,
+        modifier = Modifier.size(22.dp)
+    )
+}
+
+@Composable
+private fun YatsiIcon(contentDescription: String, tint: Color) {
+    Icon(
+        painter = painterResource(id = LucideR.drawable.lucide_ic_moon),
+        contentDescription = contentDescription,
+        tint = tint,
+        modifier = Modifier.size(22.dp)
+    )
 }
 
 @Composable
@@ -569,8 +635,22 @@ private fun CitySelectorScreen(
     modifier: Modifier = Modifier
 ) {
     var searchTerm by rememberSaveable { mutableStateOf("") }
+    val priorityCities = remember {
+        listOf("İstanbul", "Ankara", "İzmir", "Bursa", "Antalya")
+    }
     val filteredCities = remember(cities, searchTerm) {
-        cities.filter { it.name.contains(searchTerm, ignoreCase = true) }
+        val filtered = cities.filter { it.name.contains(searchTerm, ignoreCase = true) }
+        val collator = Collator.getInstance(Locale("tr", "TR"))
+        val prioritySet = priorityCities.toSet()
+
+        val top = priorityCities.mapNotNull { priorityName ->
+            filtered.firstOrNull { it.name.equals(priorityName, ignoreCase = true) }
+        }
+        val rest = filtered
+            .filterNot { city -> prioritySet.any { it.equals(city.name, ignoreCase = true) } }
+            .sortedWith { a, b -> collator.compare(a.name, b.name) }
+
+        top + rest
     }
 
     Column(
@@ -813,7 +893,7 @@ private fun SettingsScreen(
                         Icon(imageVector = Icons.Outlined.Notifications, contentDescription = null, tint = Color(0xFF4F46E5))
                     }
                     Spacer(modifier = Modifier.width(10.dp))
-                    Text("Tüm Bildirimleri Test Et", color = Color(0xFF111827), fontWeight = FontWeight.Bold)
+                    Text("Bildirimleri Test Et", color = Color(0xFF111827), fontWeight = FontWeight.Bold)
                 }
                 Icon(imageVector = Icons.Outlined.ArrowForwardIos, contentDescription = null, tint = Color(0xFF9CA3AF))
             }
@@ -1024,12 +1104,12 @@ private fun findClosestEntry(entries: List<PrayerTimesEntry>, targetDate: LocalD
 
 private fun mapPrayerUi(entry: PrayerTimesEntry): List<PrayerUi> {
     return listOf(
-        PrayerUi("İMSAK", entry.fajr, Icons.Outlined.DarkMode),
-        PrayerUi("GÜNEŞ", entry.sunrise, Icons.Outlined.WbSunny),
-        PrayerUi("ÖĞLE", entry.dhuhr, Icons.Outlined.WbSunny),
-        PrayerUi("İKİNDİ", entry.asr, Icons.Outlined.Cloud),
-        PrayerUi("AKŞAM", entry.maghrib, Icons.Outlined.WbTwilight),
-        PrayerUi("YATSI", entry.isha, Icons.Outlined.Nightlight)
+        PrayerUi("İMSAK", entry.fajr, PrayerIconType.IMSAK),
+        PrayerUi("GÜNEŞ", entry.sunrise, PrayerIconType.GUNES),
+        PrayerUi("ÖĞLE", entry.dhuhr, PrayerIconType.OGLE),
+        PrayerUi("İKİNDİ", entry.asr, PrayerIconType.IKINDI),
+        PrayerUi("AKŞAM", entry.maghrib, PrayerIconType.AKSAM),
+        PrayerUi("YATSI", entry.isha, PrayerIconType.YATSI)
     )
 }
 
