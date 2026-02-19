@@ -56,6 +56,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -481,7 +482,9 @@ private fun PrayerCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isActive) Color(0xFFEEF2FF) else Color.White
+        ),
         border = BorderStroke(1.dp, if (isActive) Color(0xFF818CF8) else Color.Transparent)
     ) {
         Column(
@@ -701,7 +704,8 @@ private fun SettingsScreen(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            fontSize = 28.sp
+            fontSize = 28.sp,
+            color = Color(0xFF111827)
         )
 
         Card(
@@ -735,7 +739,7 @@ private fun SettingsScreen(
 
 
         NotificationRow(
-            title = "Namaz Vakitleri",
+            title = "Namaz Vakit Bildirimleri",
             description = "Tüm vakitler için hatırlatıcı al",
             checked = prefs.prayer,
             onCheckedChange = { onPrefsChange(prefs.copy(prayer = it)) }
@@ -975,18 +979,39 @@ private fun BottomNav(
         NavigationBarItem(
             selected = activeTab == AppTab.CITY_CHANGE,
             onClick = { onTabChange(AppTab.CITY_CHANGE) },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4F46E5),
+                selectedTextColor = Color(0xFF4F46E5),
+                indicatorColor = Color(0xFFE0E7FF),
+                unselectedIconColor = Color(0xFF9CA3AF),
+                unselectedTextColor = Color(0xFF9CA3AF)
+            ),
             icon = { Icon(Icons.Outlined.LocationOn, contentDescription = null) },
             label = { Text("ŞEHİR DEĞİŞTİR", fontSize = 10.sp, maxLines = 1) }
         )
         NavigationBarItem(
             selected = activeTab == AppTab.PRAYER_TIMES,
             onClick = { onTabChange(AppTab.PRAYER_TIMES) },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4F46E5),
+                selectedTextColor = Color(0xFF4F46E5),
+                indicatorColor = Color(0xFFE0E7FF),
+                unselectedIconColor = Color(0xFF9CA3AF),
+                unselectedTextColor = Color(0xFF9CA3AF)
+            ),
             icon = { Icon(Icons.Rounded.CalendarMonth, contentDescription = null) },
             label = { Text("İMSAKİYE", fontSize = 10.sp) }
         )
         NavigationBarItem(
             selected = settingsSelected,
             onClick = { onTabChange(AppTab.SETTINGS) },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF4F46E5),
+                selectedTextColor = Color(0xFF4F46E5),
+                indicatorColor = Color(0xFFE0E7FF),
+                unselectedIconColor = Color(0xFF9CA3AF),
+                unselectedTextColor = Color(0xFF9CA3AF)
+            ),
             icon = { Icon(Icons.Rounded.Settings, contentDescription = null) },
             label = { Text("AYARLAR", fontSize = 10.sp) }
         )
