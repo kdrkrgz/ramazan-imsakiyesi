@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -81,11 +82,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.FileProvider
 import androidx.core.content.ContextCompat
 import com.composables.icons.lucide.R as LucideR
@@ -350,6 +354,8 @@ private fun DashboardScreen(
     modifier: Modifier = Modifier
 ) {
     val today = LocalDate.now()
+    var showPrayerTableDialog by rememberSaveable { mutableStateOf(false) }
+    val fontScale = LocalDensity.current.fontScale
     val cityPrayerEntries = remember(selectedCity, appData.prayerTimesByCity) {
         appData.prayerTimesByCity[selectedCity].orEmpty()
     }
@@ -374,12 +380,15 @@ private fun DashboardScreen(
     }
 
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
-        val topScale = when {
+        val topScaleBase = when {
             maxHeight < 700.dp -> 0.88f
             maxHeight < 760.dp -> 0.92f
             maxHeight < 840.dp -> 0.96f
             else -> 1f
         }
+        val topScale = (topScaleBase / fontScale.coerceAtLeast(1f)).coerceIn(0.82f, 1f)
+        val sectionSpacing = if (fontScale > 1.05f) 10.dp else 14.dp
+        val countdownSize = if (fontScale > 1.05f) 56.sp else 66.sp
 
         Box(modifier = Modifier.fillMaxSize()) {
             Box(
@@ -394,7 +403,7 @@ private fun DashboardScreen(
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                    verticalArrangement = Arrangement.spacedBy(sectionSpacing)
                 ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -445,7 +454,7 @@ private fun DashboardScreen(
                         Text(
                             text = countdown.remaining,
                             color = Color(0xFF4F46E5),
-                            fontSize = 66.sp,
+                            fontSize = countdownSize,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -461,6 +470,7 @@ private fun DashboardScreen(
                                 modifier = Modifier
                                     .clip(CircleShape)
                                     .background(Color(0xFFE0E7FF))
+                                    .clickable { showPrayerTableDialog = true }
                                     .padding(horizontal = 12.dp, vertical = 5.dp)
                             ) {
                                 Text(todayLabel, color = Color(0xFF4F46E5), fontWeight = FontWeight.Bold, fontSize = 11.sp)
@@ -494,6 +504,13 @@ private fun DashboardScreen(
                 }
             }
         }
+    }
+
+    if (showPrayerTableDialog) {
+        PrayerTimesTableDialog(
+            entries = cityPrayerEntries,
+            onDismiss = { showPrayerTableDialog = false }
+        )
     }
 }
 
@@ -626,6 +643,7 @@ private fun YatsiIcon(contentDescription: String, tint: Color) {
 private fun HadithCard(hadith: HadithEntry, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val title = if (hadith.type.equals("verse", ignoreCase = true)) "GÜNÜN AYETİ" else "GÜNÜN HADİSİ"
+    val hadithBody = hadith.text.trim().ifBlank { "Metin bulunamadı." }
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(26.dp),
@@ -657,18 +675,227 @@ private fun HadithCard(hadith: HadithEntry, modifier: Modifier = Modifier) {
             }
             Text(
                 text = "${hadith.source}, ${hadith.reference}",
+                modifier = Modifier.fillMaxWidth(),
                 color = Color(0xFF4F46E5),
                 fontWeight = FontWeight.Bold,
-                fontSize = 13.sp
+                fontSize = 12.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = "\"${hadith.text}\"",
+                text = "\"$hadithBody\"",
+                modifier = Modifier.fillMaxWidth(),
                 color = Color(0xFF374151),
-                fontSize = 14.sp,
-                lineHeight = 19.sp
+                fontSize = 13.sp,
+                lineHeight = 17.sp,
+                maxLines = 4,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
+}
+
+@Composable
+private fun PrayerTimesTableDialog(
+    entries: List<PrayerTimesEntry>,
+    onDismiss: () -> Unit
+) {
+    val horizontalScroll = rememberScrollState()
+    val dateFormatter = remember { DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale("tr", "TR")) }
+    val dayFormatter = remember { DateTimeFormatter.ofPattern("EEEE", Locale("tr", "TR")) }
+    val sortedEntries = remember(entries) { entries.sortedBy { it.date } }
+    var selectedRowDate by rememberSaveable { mutableStateOf<String?>(null) }
+    val tableHeight = 430.dp
+
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC))
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(14.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Tüm Vakitler",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color(0xFF111827)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(Color(0xFFE0E7FF))
+                            .clickable { onDismiss() }
+                            .padding(horizontal = 10.dp, vertical = 6.dp)
+                    ) {
+                        Text("Kapat", color = Color(0xFF4F46E5), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .height(tableHeight)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color.White)
+                ) {
+                    Row(modifier = Modifier.horizontalScroll(horizontalScroll)) {
+                        Column(modifier = Modifier.padding(10.dp)) {
+                            PrayerTableHeader()
+                            Spacer(modifier = Modifier.height(4.dp))
+                            LazyColumn(
+                                modifier = Modifier.height(tableHeight - 64.dp)
+                            ) {
+                                items(sortedEntries, key = { it.date.toString() }) { entry ->
+                                    PrayerTableRow(
+                                        dateText = entry.date.format(dateFormatter),
+                                        dayText = formatDayCapitalCase(entry.date.format(dayFormatter)),
+                                        imsak = entry.fajr,
+                                        gunes = entry.sunrise,
+                                        ogle = entry.dhuhr,
+                                        ikindi = entry.asr,
+                                        aksam = entry.maghrib,
+                                        yatsi = entry.isha,
+                                        isSpecial = entry.isSpecial,
+                                        isSelected = selectedRowDate == entry.date.toString(),
+                                        onClick = { selectedRowDate = entry.date.toString() }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PrayerTableHeader() {
+    Row(
+        modifier = Modifier
+            .background(Color(0xFFEEF2FF), RoundedCornerShape(12.dp))
+            .padding(vertical = 8.dp, horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        DateHeaderCell("TARİH", 80.dp)
+        TableCell("İMSAK", 68.dp, true)
+        TableCell("GÜNEŞ", 68.dp, true)
+        TableCell("ÖĞLE", 68.dp, true)
+        TableCell("İKİNDİ", 68.dp, true)
+        TableCell("AKŞAM", 68.dp, true)
+        TableCell("YATSI", 68.dp, true)
+    }
+}
+
+@Composable
+private fun PrayerTableRow(
+    dateText: String,
+    dayText: String,
+    imsak: String,
+    gunes: String,
+    ogle: String,
+    ikindi: String,
+    aksam: String,
+    yatsi: String,
+    isSpecial: Boolean,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    val rowBackground = when {
+        isSelected -> Color(0xFFEEF2FF)
+        isSpecial -> Color(0xFFEDE9FE)
+        else -> Color.Transparent
+    }
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(rowBackground)
+            .clickable { onClick() }
+            .padding(vertical = 4.dp, horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        DateDayCell(
+            dateText = dateText,
+            dayText = dayText,
+            isSpecial = isSpecial,
+            width = 80.dp
+        )
+        TableCell(imsak, 68.dp, false)
+        TableCell(gunes, 68.dp, false)
+        TableCell(ogle, 68.dp, false)
+        TableCell(ikindi, 68.dp, false)
+        TableCell(aksam, 68.dp, false)
+        TableCell(yatsi, 68.dp, false)
+    }
+}
+
+@Composable
+private fun DateHeaderCell(
+    value: String,
+    width: androidx.compose.ui.unit.Dp
+) {
+    Text(
+        text = value,
+        modifier = Modifier.width(width),
+        color = Color(0xFF4F46E5),
+        fontSize = 10.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Start
+    )
+}
+
+@Composable
+private fun TableCell(
+    value: String,
+    width: androidx.compose.ui.unit.Dp,
+    isHeader: Boolean
+) {
+    Text(
+        text = value,
+        modifier = Modifier.width(width),
+        color = if (isHeader) Color(0xFF4F46E5) else Color(0xFF111827),
+        fontSize = if (isHeader) 10.sp else 11.sp,
+        fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Medium,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+private fun DateDayCell(
+    dateText: String,
+    dayText: String,
+    isSpecial: Boolean,
+    width: androidx.compose.ui.unit.Dp
+) {
+    val subtitle = if (isSpecial) "$dayText (Kadir Gecesi)" else dayText
+    Column(modifier = Modifier.width(width)) {
+        Text(
+            text = dateText,
+            color = Color(0xFF111827),
+            fontSize = 11.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = subtitle,
+            color = if (isSpecial) Color(0xFF5B21B6) else Color(0xFF6B7280),
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+private fun formatDayCapitalCase(rawDay: String): String {
+    val lower = rawDay.lowercase(Locale("tr", "TR"))
+    return lower.replaceFirstChar { it.titlecase(Locale("tr", "TR")) }
 }
 
 @Composable

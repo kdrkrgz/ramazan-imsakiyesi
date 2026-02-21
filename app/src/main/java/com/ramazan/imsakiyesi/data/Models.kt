@@ -10,7 +10,8 @@ data class PrayerTimesEntry(
     val dhuhr: String,
     val asr: String,
     val maghrib: String,
-    val isha: String
+    val isha: String,
+    val isSpecial: Boolean = false
 )
 
 data class HadithEntry(

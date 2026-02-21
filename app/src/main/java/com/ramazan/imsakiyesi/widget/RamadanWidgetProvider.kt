@@ -1,11 +1,13 @@
 package com.ramazan.imsakiyesi.widget
 
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.SystemClock
 import android.widget.RemoteViews
 import com.composables.icons.lucide.R as LucideR
@@ -36,6 +38,7 @@ class RamadanWidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         when (intent.action) {
             AppWidgetManager.ACTION_APPWIDGET_UPDATE,
+            ACTION_WIDGET_REFRESH,
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED,
             Intent.ACTION_DATE_CHANGED,
@@ -44,6 +47,9 @@ class RamadanWidgetProvider : AppWidgetProvider() {
     }
 
     companion object {
+        private const val ACTION_WIDGET_REFRESH = "com.ramazan.imsakiyesi.action.WIDGET_REFRESH"
+        private const val REFRESH_REQUEST_CODE = 90426
+
         fun updateAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             val componentName = ComponentName(context, RamadanWidgetProvider::class.java)
@@ -80,6 +86,7 @@ class RamadanWidgetProvider : AppWidgetProvider() {
                 views.setChronometer(R.id.txt_countdown_value, SystemClock.elapsedRealtime(), null, false)
                 views.setTextViewText(R.id.txt_countdown_value, "--:--:--")
                 views.setImageViewResource(R.id.img_next_icon, LucideR.drawable.lucide_ic_map_pin)
+                cancelScheduledRefresh(context)
                 manager.updateAppWidget(appWidgetId, views)
                 return
             }
@@ -96,6 +103,7 @@ class RamadanWidgetProvider : AppWidgetProvider() {
                 views.setChronometer(R.id.txt_countdown_value, SystemClock.elapsedRealtime(), null, false)
                 views.setTextViewText(R.id.txt_countdown_value, "--:--:--")
                 views.setImageViewResource(R.id.img_next_icon, LucideR.drawable.lucide_ic_clock_3)
+                cancelScheduledRefresh(context)
                 manager.updateAppWidget(appWidgetId, views)
                 return
             }
@@ -111,8 +119,56 @@ class RamadanWidgetProvider : AppWidgetProvider() {
             val base = SystemClock.elapsedRealtime() + countdown.remainingMillis
             views.setChronometerCountDown(R.id.txt_countdown_value, true)
             views.setChronometer(R.id.txt_countdown_value, base, null, true)
+            scheduleWidgetRefresh(context, countdown.remainingMillis)
 
             manager.updateAppWidget(appWidgetId, views)
+        }
+
+        private fun scheduleWidgetRefresh(context: Context, remainingMillis: Long) {
+            val safeDelay = remainingMillis.coerceAtLeast(1_000L)
+            val triggerAt = System.currentTimeMillis() + safeDelay + 250L
+            val intent = Intent(context, RamadanWidgetProvider::class.java).apply {
+                action = ACTION_WIDGET_REFRESH
+            }
+            val pending = PendingIntent.getBroadcast(
+                context,
+                REFRESH_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                runCatching {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pending)
+                }.getOrElse {
+                    alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pending)
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                runCatching {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAt, pending)
+                }.getOrElse {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAt, pending)
+                }
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAt, pending)
+            }
+        }
+
+        private fun cancelScheduledRefresh(context: Context) {
+            val intent = Intent(context, RamadanWidgetProvider::class.java).apply {
+                action = ACTION_WIDGET_REFRESH
+            }
+            val pending = PendingIntent.getBroadcast(
+                context,
+                REFRESH_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+            )
+            if (pending != null) {
+                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                alarmManager.cancel(pending)
+                pending.cancel()
+            }
         }
 
         private fun nextPrayer(

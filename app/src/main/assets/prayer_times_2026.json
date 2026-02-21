@@ -262,6 +262,7 @@
   {
     "city": "Adana",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:22",
     "sunrise": "06:42",
     "dhuhr": "12:52",
@@ -562,6 +563,7 @@
   {
     "city": "Adıyaman",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:10",
     "sunrise": "06:30",
     "dhuhr": "12:41",
@@ -862,6 +864,7 @@
   {
     "city": "Afyonkarahisar",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:39",
     "sunrise": "07:01",
     "dhuhr": "13:11",
@@ -1162,6 +1165,7 @@
   {
     "city": "Ağrı",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:48",
     "sunrise": "06:11",
     "dhuhr": "12:21",
@@ -1462,6 +1466,7 @@
   {
     "city": "Amasya",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:16",
     "sunrise": "06:40",
     "dhuhr": "12:50",
@@ -1762,6 +1767,7 @@
   {
     "city": "Ankara",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:29",
     "sunrise": "06:52",
     "dhuhr": "13:02",
@@ -2062,6 +2068,7 @@
   {
     "city": "Antalya",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:41",
     "sunrise": "07:00",
     "dhuhr": "13:11",
@@ -2362,6 +2369,7 @@
   {
     "city": "Artvin",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:51",
     "sunrise": "06:16",
     "dhuhr": "12:26",
@@ -2662,6 +2670,7 @@
   {
     "city": "Aydın",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:51",
     "sunrise": "07:12",
     "dhuhr": "13:22",
@@ -2962,6 +2971,7 @@
   {
     "city": "Balıkesir",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:49",
     "sunrise": "07:12",
     "dhuhr": "13:22",
@@ -3262,6 +3272,7 @@
   {
     "city": "Bilecik",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:40",
     "sunrise": "07:03",
     "dhuhr": "13:14",
@@ -3562,6 +3573,7 @@
   {
     "city": "Bingöl",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:59",
     "sunrise": "06:21",
     "dhuhr": "12:32",
@@ -3862,6 +3874,7 @@
   {
     "city": "Bitlis",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:54",
     "sunrise": "06:15",
     "dhuhr": "12:25",
@@ -4162,6 +4175,7 @@
   {
     "city": "Bolu",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:33",
     "sunrise": "06:57",
     "dhuhr": "13:07",
@@ -4462,6 +4476,7 @@
   {
     "city": "Burdur",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:41",
     "sunrise": "07:02",
     "dhuhr": "13:12",
@@ -4762,6 +4777,7 @@
   {
     "city": "Bursa",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:43",
     "sunrise": "07:07",
     "dhuhr": "13:17",
@@ -5062,6 +5078,7 @@
   {
     "city": "Çanakkale",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:54",
     "sunrise": "07:18",
     "dhuhr": "13:28",
@@ -5362,6 +5379,7 @@
   {
     "city": "Çankırı",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:25",
     "sunrise": "06:49",
     "dhuhr": "12:59",
@@ -5662,6 +5680,7 @@
   {
     "city": "Çorum",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:20",
     "sunrise": "06:44",
     "dhuhr": "12:54",
@@ -5962,6 +5981,7 @@
   {
     "city": "Denizli",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:46",
     "sunrise": "07:07",
     "dhuhr": "13:17",
@@ -6262,6 +6282,7 @@
   {
     "city": "Diyarbakır",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:02",
     "sunrise": "06:22",
     "dhuhr": "12:33",
@@ -6562,6 +6583,7 @@
   {
     "city": "Edirne",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:51",
     "sunrise": "07:17",
     "dhuhr": "13:27",
@@ -6862,6 +6884,7 @@
   {
     "city": "Elazığ",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:05",
     "sunrise": "06:26",
     "dhuhr": "12:37",
@@ -7162,6 +7185,7 @@
   {
     "city": "Erzincan",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:02",
     "sunrise": "06:25",
     "dhuhr": "12:36",
@@ -7462,6 +7486,7 @@
   {
     "city": "Erzurum",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:55",
     "sunrise": "06:18",
     "dhuhr": "12:29",
@@ -7762,6 +7787,7 @@
   {
     "city": "Eskişehir",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:38",
     "sunrise": "07:01",
     "dhuhr": "13:12",
@@ -8062,6 +8088,7 @@
   {
     "city": "Gaziantep",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:14",
     "sunrise": "06:33",
     "dhuhr": "12:44",
@@ -8362,6 +8389,7 @@
   {
     "city": "Giresun",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:05",
     "sunrise": "06:30",
     "dhuhr": "12:40",
@@ -8662,6 +8690,7 @@
   {
     "city": "Gümüşhane",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:02",
     "sunrise": "06:25",
     "dhuhr": "12:36",
@@ -8962,6 +8991,7 @@
   {
     "city": "Hakkari",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:48",
     "sunrise": "06:08",
     "dhuhr": "12:19",
@@ -9262,6 +9292,7 @@
   {
     "city": "Hatay",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:20",
     "sunrise": "06:38",
     "dhuhr": "12:49",
@@ -9562,6 +9593,7 @@
   {
     "city": "Isparta",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:40",
     "sunrise": "07:01",
     "dhuhr": "13:11",
@@ -9862,6 +9894,7 @@
   {
     "city": "Mersin",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:25",
     "sunrise": "06:44",
     "dhuhr": "12:55",
@@ -10162,6 +10195,7 @@
   {
     "city": "İstanbul",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:43",
     "sunrise": "07:08",
     "dhuhr": "13:18",
@@ -10462,6 +10496,7 @@
   {
     "city": "İzmir",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:53",
     "sunrise": "07:14",
     "dhuhr": "13:25",
@@ -10762,6 +10797,7 @@
   {
     "city": "Kars",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:47",
     "sunrise": "06:11",
     "dhuhr": "12:21",
@@ -11062,6 +11098,7 @@
   {
     "city": "Kastamonu",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:23",
     "sunrise": "06:48",
     "dhuhr": "12:59",
@@ -11362,6 +11399,7 @@
   {
     "city": "Kayseri",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:20",
     "sunrise": "06:41",
     "dhuhr": "12:52",
@@ -11662,6 +11700,7 @@
   {
     "city": "Kırklareli",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:49",
     "sunrise": "07:15",
     "dhuhr": "13:25",
@@ -11962,6 +12001,7 @@
   {
     "city": "Kırşehir",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:24",
     "sunrise": "06:47",
     "dhuhr": "12:57",
@@ -12262,6 +12302,7 @@
   {
     "city": "Kocaeli",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:39",
     "sunrise": "07:03",
     "dhuhr": "13:14",
@@ -12562,6 +12603,7 @@
   {
     "city": "Konya",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:33",
     "sunrise": "06:53",
     "dhuhr": "13:04",
@@ -12862,6 +12904,7 @@
   {
     "city": "Kütahya",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:41",
     "sunrise": "07:03",
     "dhuhr": "13:14",
@@ -13162,6 +13205,7 @@
   {
     "city": "Malatya",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:09",
     "sunrise": "06:30",
     "dhuhr": "12:40",
@@ -13462,6 +13506,7 @@
   {
     "city": "Manisa",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:48",
     "sunrise": "07:10",
     "dhuhr": "13:20",
@@ -13762,6 +13807,7 @@
   {
     "city": "Kahramanmaraş",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:15",
     "sunrise": "06:35",
     "dhuhr": "12:46",
@@ -14062,6 +14108,7 @@
   {
     "city": "Mardin",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:00",
     "sunrise": "06:20",
     "dhuhr": "12:31",
@@ -14362,6 +14409,7 @@
   {
     "city": "Muğla",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:50",
     "sunrise": "07:09",
     "dhuhr": "13:20",
@@ -14662,6 +14710,7 @@
   {
     "city": "Muş",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:55",
     "sunrise": "06:17",
     "dhuhr": "12:28",
@@ -14962,6 +15011,7 @@
   {
     "city": "Nevşehir",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:23",
     "sunrise": "06:44",
     "dhuhr": "12:55",
@@ -15262,6 +15312,7 @@
   {
     "city": "Niğde",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:24",
     "sunrise": "06:44",
     "dhuhr": "12:55",
@@ -15562,6 +15613,7 @@
   {
     "city": "Ordu",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:07",
     "sunrise": "06:32",
     "dhuhr": "12:42",
@@ -15862,6 +15914,7 @@
   {
     "city": "Rize",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:57",
     "sunrise": "06:21",
     "dhuhr": "12:32",
@@ -16162,6 +16215,7 @@
   {
     "city": "Sakarya",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:37",
     "sunrise": "07:01",
     "dhuhr": "13:11",
@@ -16462,6 +16516,7 @@
   {
     "city": "Samsun",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:13",
     "sunrise": "06:38",
     "dhuhr": "12:48",
@@ -16762,6 +16817,7 @@
   {
     "city": "Siirt",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:55",
     "sunrise": "06:15",
     "dhuhr": "12:26",
@@ -17062,6 +17118,7 @@
   {
     "city": "Sinop",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:17",
     "sunrise": "06:43",
     "dhuhr": "12:53",
@@ -17362,6 +17419,7 @@
   {
     "city": "Sivas",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:12",
     "sunrise": "06:35",
     "dhuhr": "12:46",
@@ -17662,6 +17720,7 @@
   {
     "city": "Tekirdağ",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:49",
     "sunrise": "07:13",
     "dhuhr": "13:24",
@@ -17962,6 +18021,7 @@
   {
     "city": "Tokat",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:13",
     "sunrise": "06:37",
     "dhuhr": "12:47",
@@ -18262,6 +18322,7 @@
   {
     "city": "Trabzon",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:00",
     "sunrise": "06:25",
     "dhuhr": "12:35",
@@ -18562,6 +18623,7 @@
   {
     "city": "Tunceli",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:03",
     "sunrise": "06:25",
     "dhuhr": "12:35",
@@ -18862,6 +18924,7 @@
   {
     "city": "Şanlıurfa",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:08",
     "sunrise": "06:28",
     "dhuhr": "12:39",
@@ -19162,6 +19225,7 @@
   {
     "city": "Uşak",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:44",
     "sunrise": "07:05",
     "dhuhr": "13:16",
@@ -19462,6 +19526,7 @@
   {
     "city": "Van",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:48",
     "sunrise": "06:10",
     "dhuhr": "12:20",
@@ -19762,6 +19827,7 @@
   {
     "city": "Yozgat",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:21",
     "sunrise": "06:44",
     "dhuhr": "12:54",
@@ -20062,6 +20128,7 @@
   {
     "city": "Zonguldak",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:31",
     "sunrise": "06:56",
     "dhuhr": "13:06",
@@ -20362,6 +20429,7 @@
   {
     "city": "Aksaray",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:20",
     "sunrise": "06:42",
     "dhuhr": "12:53",
@@ -20662,6 +20730,7 @@
   {
     "city": "Bayburt",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:59",
     "sunrise": "06:22",
     "dhuhr": "12:33",
@@ -20962,6 +21031,7 @@
   {
     "city": "Karaman",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:30",
     "sunrise": "06:50",
     "dhuhr": "13:01",
@@ -21262,6 +21332,7 @@
   {
     "city": "Kırıkkale",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:25",
     "sunrise": "06:48",
     "dhuhr": "12:59",
@@ -21562,6 +21633,7 @@
   {
     "city": "Batman",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:58",
     "sunrise": "06:18",
     "dhuhr": "12:29",
@@ -21862,6 +21934,7 @@
   {
     "city": "Şırnak",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:53",
     "sunrise": "06:13",
     "dhuhr": "12:24",
@@ -22162,6 +22235,7 @@
   {
     "city": "Bartın",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:29",
     "sunrise": "06:54",
     "dhuhr": "13:04",
@@ -22462,6 +22536,7 @@
   {
     "city": "Ardahan",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:48",
     "sunrise": "06:13",
     "dhuhr": "12:23",
@@ -22762,6 +22837,7 @@
   {
     "city": "Iğdır",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "04:44",
     "sunrise": "06:07",
     "dhuhr": "12:17",
@@ -23062,6 +23138,7 @@
   {
     "city": "Yalova",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:42",
     "sunrise": "07:06",
     "dhuhr": "13:17",
@@ -23362,6 +23439,7 @@
   {
     "city": "Karabük",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:28",
     "sunrise": "06:53",
     "dhuhr": "13:03",
@@ -23662,6 +23740,7 @@
   {
     "city": "Kilis",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:15",
     "sunrise": "06:34",
     "dhuhr": "12:45",
@@ -23962,6 +24041,7 @@
   {
     "city": "Osmaniye",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:18",
     "sunrise": "06:38",
     "dhuhr": "12:49",
@@ -24262,6 +24342,7 @@
   {
     "city": "Düzce",
     "date": "2026-03-16",
+    "isSpecial": true,
     "fajr": "05:34",
     "sunrise": "06:59",
     "dhuhr": "13:09",

@@ -70,7 +70,6 @@ class RamadanNotificationReceiver : BroadcastReceiver() {
             val notification = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_popup_reminder)
                 .setCustomContentView(customView)
-                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setContentTitle(title)
                 .setContentText(subtitle)
                 .setContentIntent(contentIntent)

@@ -73,7 +73,8 @@ object AssetRepository {
                         dhuhr = item.getString("dhuhr"),
                         asr = item.getString("asr"),
                         maghrib = item.getString("maghrib"),
-                        isha = item.getString("isha")
+                        isha = item.getString("isha"),
+                        isSpecial = item.optBoolean("isSpecial", false)
                     )
                 )
             }
